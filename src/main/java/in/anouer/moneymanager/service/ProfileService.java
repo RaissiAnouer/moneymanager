@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -114,7 +113,8 @@ public class ProfileService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(),authDTO.getPassword()));
             String token = jwtUtil.generateToken(authDTO.getEmail());
             return Map.of(
-                    "token",token,"user",getPublicProfile(authDTO.getEmail())
+                    "token",token,
+                    "user",getPublicProfile(authDTO.getEmail())
             );
         }catch (Exception e){
             throw new RuntimeException("Invalid email or password");
