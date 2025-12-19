@@ -4,6 +4,7 @@ import in.anouer.moneymanager.dto.ExpenseDTO;
 import in.anouer.moneymanager.entity.CategoryEntity;
 import in.anouer.moneymanager.entity.ExpenseEntity;
 import in.anouer.moneymanager.entity.ProfileEntity;
+import in.anouer.moneymanager.repository.CategoryRepository;
 import in.anouer.moneymanager.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,21 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ExpenseService {
-    private final CategoryService categoryService;
+    private final CategoryRepository  categoryRepository;
     private final ExpenseRepository expenseRepository;
+    private final ProfileService profileService;
 
+    //adds new expense to the database
+    public ExpenseDTO addExpense(ExpenseDTO dto){
+        ProfileEntity profile = profileService.getCurrentProfile();
+        CategoryEntity category = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(()->new RuntimeException("Category not found"));
+        ExpenseEntity newExpense=toEntity(dto,profile,category);
+        newExpense=expenseRepository.save(newExpense);
+        return toDTO(newExpense);
+    }
+
+    //helper methods
     private ExpenseEntity toEntity(ExpenseDTO dto, ProfileEntity profile, CategoryEntity category) {
         return ExpenseEntity.builder()
                 .name(dto.getName())
