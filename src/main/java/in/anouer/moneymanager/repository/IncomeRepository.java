@@ -19,12 +19,12 @@ public interface IncomeRepository  extends JpaRepository<IncomeEntity,Long> {
     //select * from tbl_income where profile_id=?1 order by date desc limit 5
     List<IncomeEntity> findTop5ByProfileIdOrderByDateDesc(Long profileId);
 
-    @Query("SELECT SUM(e.amount) FROM ExpenseEntity e where e.profile.id= :profileId")
+    @Query("SELECT SUM(i.amount) FROM ExpenseEntity i where i.profile.id= :profileId")
     BigDecimal findTotalExpenseByProfileId(@Param("profileId") Long profileId);
 
 
     //select * from tbl_income where profile_id= ?1 and date between ?2 and ?3 and name like %?4%
-    List<ExpenseEntity>  findByProfieIdAndDateBetweenAndNameContainingIgnoreCase(
+    List<ExpenseEntity>  findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(
             Long ProfileId,
             LocalDate startDate,
             LocalDate endDate,
@@ -33,5 +33,5 @@ public interface IncomeRepository  extends JpaRepository<IncomeEntity,Long> {
     );
 
     //select * from tbl_income where profile_id=?1 and date between them ?2 and ?3
-    List<ExpenseEntity> findByProfileIdAndDateBetween(Long profile, LocalDate startDate, LocalDate endDate);
+    List<IncomeEntity> findByProfileIdAndDateBetween(Long profile, LocalDate startDate, LocalDate endDate);
 }
