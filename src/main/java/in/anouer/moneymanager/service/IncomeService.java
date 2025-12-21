@@ -9,6 +9,7 @@ import in.anouer.moneymanager.entity.ProfileEntity;
 import in.anouer.moneymanager.repository.CategoryRepository;
 import in.anouer.moneymanager.repository.IncomeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -67,11 +68,21 @@ public class IncomeService {
     //Get total incomes for current user
     public BigDecimal getTotalIncomesForCurrentUser(){
         ProfileEntity profile = profileService.getCurrentProfile();
-        BigDecimal total = incomeRepository.findTotalExpenseByProfileId(profile.getId());
+        BigDecimal total = incomeRepository.findTotalIncomeByProfileId(profile.getId());
         return total !=null ? total : BigDecimal.ZERO;
     }
 
 
+
+    //filter incomes
+    public List <IncomeDTO> filterIncomes(LocalDate startDate,LocalDate endDate,String keyword, Sort sort ){
+        ProfileEntity profile= profileService.getCurrentProfile();
+        List<IncomeEntity> list = incomeRepository.findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(profile.getId(),startDate,endDate,keyword,sort);
+        return list.stream().map(this::toDTO).toList();
+    }
+
+
+    //helper methods
     private IncomeEntity toEntity(IncomeDTO dto, ProfileEntity profile, CategoryEntity category) {
         return IncomeEntity.builder()
                 .name(dto.getName())
