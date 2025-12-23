@@ -7,18 +7,17 @@ on:
     branches: [ "master" ]
 
 jobs:
-
-  build:
-
+  build_push_backend_image:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - uses: mr-smithers-excellent/docker-build-push@v6
-      name: Build & push Docker image
-      with:
-        image: repo/image
-        tags: v1, latest
-        dockerfile: Dockerfile.ci
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: build and push backend image
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: raissianouer/orangeai_backend
+          registry: docker.io
+          dockerfile: ./Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
