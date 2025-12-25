@@ -31,6 +31,7 @@ jobs:
           image: raissianouer/moneymanager_backend
           registry: docker.io
           dockerfile: ./Dockerfile
+          tags: latest, ${{ github.sha }}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
