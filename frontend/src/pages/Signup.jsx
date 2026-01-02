@@ -55,6 +55,7 @@ const Signup = () => {
         fullName,
         email,
         password,
+        profileImageUrl,
       });
       if (response.status === 201) {
         toast.success("Profile created successfully!");
