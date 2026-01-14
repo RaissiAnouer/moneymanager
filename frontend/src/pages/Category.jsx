@@ -24,7 +24,7 @@ const Category = () => {
 
     try {
       const response = await axiosConfig.get(API_ENDPOINTS.GET_ALL_CATEGORIES);
-      if (response.status == 200) {
+      if (response.status === 200) {
         console.log("categories", response.data);
         setCategoryData(response.data);
       }
@@ -39,6 +39,73 @@ const Category = () => {
   useEffect(() => {
     fetchCategoryDetails();
   }, []);
+
+  const handleAddCategory = async (category) => {
+    const { name, type, icon } = category;
+    if (!name.trim()) {
+      toast.error("Category Name is required");
+      return;
+    }
+
+    //check if the category already exists
+    const isDuplicate = categoryData.some((category) => {
+      return category.name.toLowerCase() === name.trim().toLowerCase();
+    });
+    if (isDuplicate) {
+      toast.error("Category Name already exists");
+      return;
+    }
+    try {
+      const response = await axiosConfig.post(API_ENDPOINTS.ADD_CATEGORY, {
+        name,
+        type,
+        icon,
+      });
+
+      if (response.status === 201) {
+        toast.success("Category added successfully");
+        setOpenAddCategoryModal(false);
+        fetchCategoryDetails();
+      }
+    } catch (error) {
+      console.error("Error adding category", error);
+      toast.error(error.response?.data?.message || "Failed to add category");
+    }
+  };
+
+  const handleEditCategory = (categoryToEdit) => {
+    setSelectedCategory(categoryToEdit);
+    setOpenEditCategoryModal(true);
+  };
+
+  const handleUpdateCategory = async (updatedCategory) => {
+    const { id, name, type, icon } = updatedCategory;
+    if (!name.trim()) {
+      toast.error("Category Name is required");
+      return;
+    }
+    if (!id) {
+      toast.error("Category ID is missing for update");
+      return;
+    }
+    try {
+      await axiosConfig.put(API_ENDPOINTS.UPDATE_CATEGORY(id), {
+        name,
+        type,
+        icon,
+      });
+      setOpenEditCategoryModal(false);
+      setSelectedCategory(null);
+      toast.success("Category updated successfully");
+      fetchCategoryDetails();
+    } catch (error) {
+      console.error(
+        "Error updating category",
+        error.response?.data?.message || error.message
+      );
+      toast.error(error.response?.data?.message || "Failed to update category");
+    }
+  };
   return (
     <Dashboard activeMenu="Category">
       <div className="my-5 mx-auto">
@@ -55,18 +122,34 @@ const Category = () => {
         </div>
 
         {/* Category list */}
-        <CategoryList categories={categoryData} />
-
+        <CategoryList
+          categories={categoryData}
+          onEditCategory={handleEditCategory}
+        />
         {/*Adding category model */}
         <Modal
           isOpen={openAddCategoryModal}
           onClose={() => setOpenAddCategoryModal(false)}
           title="Add category modal"
         >
-          <AddCategoryForm />
+          <AddCategoryForm onAddCategory={handleAddCategory} />
         </Modal>
 
         {/*Updating category modal */}
+        <Modal
+          isOpen={openEditCategoryModal}
+          onClose={() => {
+            setOpenEditCategoryModal(false);
+            setSelectedCategory(null);
+          }}
+          title="Update Category"
+        >
+          <AddCategoryForm
+            initialCategoryData={selectedCategory}
+            onAddCategory={handleUpdateCategory}
+            isEditing={true}
+          />
+        </Modal>
       </div>
     </Dashboard>
   );

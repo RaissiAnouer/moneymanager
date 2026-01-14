@@ -1,8 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 @import "tailwindcss";
 
 body {
-    font-family: "Outfit", sans-serif;
-    background-color: #fcfbfc;
-    overflow-x: hidden;
+  font-family: "Outfit", sans-serif;
+  background-color: #fcfbfc;
+  overflow-x: hidden;
+}
+
+@layer components {
+  .add-btn {
+    @apply inline-flex h-10 items-center justify-center rounded-md bg-purple-600 
+    px-5 font-medium text-neutral-50 shadow-md cursor-pointer shadow-purple-500/20 
+    transition active:scale-95;
+  }
 }
