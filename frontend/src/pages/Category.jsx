@@ -101,7 +101,7 @@ const Category = () => {
     } catch (error) {
       console.error(
         "Error updating category",
-        error.response?.data?.message || error.message
+        error.response?.data?.message || error.message,
       );
       toast.error(error.response?.data?.message || "Failed to update category");
     }
@@ -114,7 +114,7 @@ const Category = () => {
           <h2 className="text-2xl font-semibold ">All Categories</h2>
           <button
             onClick={() => setOpenAddCategoryModal(true)}
-            className="add-btn bg-green-100/70 cursor-pointer rounded border border-green-200 py-2 px-4 flex items-center gap-1 font-bold text-[13px] text-green-700"
+            className="primary-add-btn"
           >
             <Plus size={15} />
             Add Category
