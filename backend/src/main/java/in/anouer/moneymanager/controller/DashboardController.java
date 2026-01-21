@@ -14,7 +14,6 @@ import java.util.Map;
 @RequestMapping("/dashboard")
 @RequiredArgsConstructor
 public class DashboardController {
-
     private final DashboardService dashboardService;
 
     @GetMapping
