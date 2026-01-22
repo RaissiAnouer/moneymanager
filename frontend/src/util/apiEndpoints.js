@@ -1,5 +1,4 @@
-export const BASE_URL = "https://moneymanager-backend-master-f46389e.onrender.com/api/v1.0";
-
+export const BASE_URL = "https://moneymanager-backend-master-f46389e.onrender.com/api/v1.0"
 const CLOUDINARY_CLOUD_NAME = "dkjzxthju"
 
 
@@ -18,6 +17,11 @@ export const API_ENDPOINTS = {
     EMAIL_INCOME: "/email/income-excel",
     APPLY_FILTER: "/filter",
     DASHBOARD_DATA: "/dashboard",
+    GET_ALL_EXPENSES: "/expenses",
+    ADD_EXPENSE: "/expenses",
+    EXPENSE_EXCEL_DOWNLOAD: "excel/download/expense",
+    EMAIL_EXPENSE: "/email/expense-excel",
+    DELETE_EXPENSE: (expenseId) => `/expenses/${expenseId}`,
     UPLOAD_IMAGE: `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`
 
 }

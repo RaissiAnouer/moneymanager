@@ -26,10 +26,23 @@ public class EmailController {
         ProfileEntity profile= profileService.getCurrentProfile();
         ByteArrayOutputStream boas=new ByteArrayOutputStream();
         excelService.writeIncomesToExel(boas,incomeService.getCurrentMonthIncomesForCurrentUser());
-        emailService.sendEmailWithAttachment(profile.getEmail(),"Your Income Excel Report",
-                "This is your income report",
-                boas.toByteArray(),"income-report.xlsx"
+        emailService.sendEmailWithAttachment(profile.getEmail(),"Your Incomes Excel Report",
+                "This is your incomes report",
+                boas.toByteArray(),"incomes-report.xlsx"
                 );
+
+        return ResponseEntity.ok(null);
+    }
+
+    @GetMapping("/expense-excel")
+    public ResponseEntity<Void> emailExpenseExcel() throws IOException {
+        ProfileEntity profile= profileService.getCurrentProfile();
+        ByteArrayOutputStream boas=new ByteArrayOutputStream();
+        excelService.writeExpensesToExel(boas,expenseService.getCurrentMonthExpensesForCurrentUser());
+        emailService.sendEmailWithAttachment(profile.getEmail(),"Your Expenses Excel Report",
+                "This is your expenses report",
+                boas.toByteArray(),"expenses-report.xlsx"
+        );
 
         return ResponseEntity.ok(null);
     }

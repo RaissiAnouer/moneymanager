@@ -10,23 +10,29 @@ import {
 } from "recharts";
 
 const CustomLineChart = ({ transactions }) => {
+  // Soft purple color
+  const color = "#7c3aed";
+
   return (
     <ResponsiveContainer width="99%" height="100%">
       <AreaChart
         data={transactions}
         margin={{ top: 20, right: 30, left: 10, bottom: 20 }}
       >
+        {/* Gradient for the area fill */}
         <defs>
           <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3} />
-            <stop offset="95%" stopColor="#22c55e" stopOpacity={0.05} />
+            <stop offset="5%" stopColor={color} stopOpacity={0.4} />
+            <stop offset="95%" stopColor={color} stopOpacity={0.05} />
           </linearGradient>
         </defs>
+
         <CartesianGrid
           strokeDasharray="3 3"
           vertical={false}
           stroke="#f3f4f6"
         />
+
         <XAxis
           dataKey="label"
           stroke="#9ca3af"
@@ -35,6 +41,7 @@ const CustomLineChart = ({ transactions }) => {
           axisLine={false}
           dy={10}
         />
+
         <YAxis
           stroke="#9ca3af"
           fontSize={12}
@@ -44,6 +51,7 @@ const CustomLineChart = ({ transactions }) => {
             value >= 1000 ? `${value / 1000}k` : value
           }
         />
+
         <Tooltip
           content={({ active, payload }) => {
             if (!active || !payload || !payload.length) return null;
@@ -61,6 +69,7 @@ const CustomLineChart = ({ transactions }) => {
                   boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                 }}
               >
+                {/* Day label */}
                 <div
                   style={{
                     fontSize: "12px",
@@ -71,6 +80,8 @@ const CustomLineChart = ({ transactions }) => {
                 >
                   {data.label}
                 </div>
+
+                {/* Total amount */}
                 <div
                   style={{
                     fontSize: "16px",
@@ -79,11 +90,13 @@ const CustomLineChart = ({ transactions }) => {
                   }}
                 >
                   Total:{" "}
-                  <span style={{ color: "#22c55e" }}>
+                  <span style={{ color }}>
                     {data.amount.toLocaleString()} DT
                   </span>
                 </div>
-                {data.sources && Object.keys(data.sources).length > 0 && (
+
+                {/* Breakdown / details */}
+                {data.breakdown && Object.keys(data.breakdown).length > 0 && (
                   <div
                     style={{
                       fontSize: "12px",
@@ -95,24 +108,31 @@ const CustomLineChart = ({ transactions }) => {
                     <div style={{ fontWeight: "500", marginBottom: "4px" }}>
                       Details:
                     </div>
-                    {Object.entries(data.sources).map(([source, amount]) => (
-                      <div key={source} style={{ marginBottom: "2px" }}>
-                        {source}: {amount.toLocaleString()} DT
-                      </div>
-                    ))}
+                    {Object.entries(data.breakdown).map(
+                      ([category, amount]) => (
+                        <div key={category} style={{ marginBottom: "2px" }}>
+                          {category}:{" "}
+                          <span style={{ color }}>
+                            {amount.toLocaleString()} DT
+                          </span>
+                        </div>
+                      ),
+                    )}
                   </div>
                 )}
               </div>
             );
           }}
         />
+
+        {/* Area chart */}
         <Area
           type="monotone"
           dataKey="amount"
-          stroke="#22c55e"
+          stroke={color}
           strokeWidth={3}
           fill="url(#colorAmount)"
-          dot={{ r: 4, fill: "#22c55e", strokeWidth: 2, stroke: "#fff" }}
+          dot={{ r: 4, fill: color, strokeWidth: 2, stroke: "#fff" }}
           activeDot={{ r: 6 }}
         />
       </AreaChart>

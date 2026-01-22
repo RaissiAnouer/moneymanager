@@ -10,10 +10,10 @@ const axiosConfig = axios.create({
 });
 
 //list of endpounts that do not require authorizatin header
-const exludeEndpoints = ["/login", "/register", "/status", "/activate", "/health"];
+const excludeEndpoints = ["/login", "/register", "/status", "/activate", "/health"];
 //request intereptor
 axiosConfig.interceptors.request.use((config) => {
-    const shouldSkipToken = exludeEndpoints.some((endpoint) => {
+    const shouldSkipToken = excludeEndpoints.some((endpoint) => {
         return config.url?.includes(endpoint)
     });
 

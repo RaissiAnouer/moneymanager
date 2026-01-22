@@ -1,9 +1,8 @@
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
-const CustomPieChart = ({ data, label, totalAmount }) => {
+const CustomPieChart = ({ data, label, totalAmount, COLORS }) => {
   // Colors matching your FinanceOverview component
-  const COLORS = ["#591688", "#a0090e", "#016630"];
 
   return (
     <div className="relative w-full h-[300px] mt-4">

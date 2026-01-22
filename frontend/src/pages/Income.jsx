@@ -63,6 +63,7 @@ const Income = () => {
     const { name, amount, date, icon, categoryId } = income;
     if (!name.trim()) {
       toast.error("Please enter a name");
+      return;
     }
     if (!amount || isNaN(amount) || Number(amount) <= 0) {
       toast.error("Amount should be a valid number greater than 0");
@@ -91,7 +92,7 @@ const Income = () => {
       });
       if (response.status === 201) {
         setOpenAddIncomeModal(false);
-        toast.success("Income added successfully");
+        toast.success("Income added successfully!");
         fetchIncomeDetails();
         fetchIncomeCategories();
       }
@@ -144,11 +145,11 @@ const Income = () => {
     try {
       await axiosConfig.delete(API_ENDPOINTS.DELETE_INCOME(id));
       setOpenDeleteAlert({ show: false, data: null });
-      toast.success("Income Deeted successfully");
+      toast.success("Income Deleted successfully");
       fetchIncomeDetails();
     } catch (error) {
       console.error("Error deleting income", error);
-      toast.error(error.response?.data?.message || "Failed to delete income");
+      toast.error(error.response?.data?.message || "Failed deleting income");
     }
   };
   return (
@@ -156,7 +157,7 @@ const Income = () => {
       <div className="my-5 mx-auto">
         <div className="grid grid-cols-1 gap-6 ">
           <div>
-            {/*overview for income with line char */}
+            {/*overview for income with line chart */}
 
             <IncomeOverview
               transactions={incomeData}

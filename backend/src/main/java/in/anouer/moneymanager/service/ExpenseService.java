@@ -95,6 +95,7 @@ public class ExpenseService {
                 .name(dto.getName())
                 .icon(dto.getIcon())
                 .amount(dto.getAmount())
+                .date(dto.getDate())
                 .profile(profile)
                 .category(category)
                 .build();
