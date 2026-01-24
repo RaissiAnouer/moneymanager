@@ -3,6 +3,7 @@ package in.anouer.moneymanager.service;
 
 import in.anouer.moneymanager.dto.AuthDTO;
 import in.anouer.moneymanager.dto.ProfileDTO;
+import in.anouer.moneymanager.dto.UpdateProfileDTO;
 import in.anouer.moneymanager.entity.ProfileEntity;
 import in.anouer.moneymanager.repository.ProfileRepository;
 import in.anouer.moneymanager.util.JwtUtil;
@@ -43,6 +44,21 @@ public class ProfileService {
         emailService.sendEmail(newProfile.getEmail(),subject,body);
         return toDto(newProfile);
     }
+
+    public ProfileDTO updateProfile(UpdateProfileDTO updatedProfile){
+        ProfileEntity profile=getCurrentProfile();
+        if(updatedProfile.getFullName()!= null){
+            profile.setFullName(updatedProfile.getFullName());
+        }
+        if(updatedProfile.getProfileImageUrl() !=null ) {
+            profile.setProfileImageUrl(updatedProfile.getProfileImageUrl());
+        }
+        if(updatedProfile.getFullName() != null  || updatedProfile.getProfileImageUrl()!=null) {
+            profileRepository.save(profile);
+        }
+        return toDto(profile);
+    }
+
 
     public ProfileEntity toEntity(ProfileDTO profileDTO){
         return ProfileEntity.builder()
@@ -109,8 +125,6 @@ public class ProfileService {
                 .updatedAt(currentUser.getUpdatedAt())
                 .build();
     }
-
-
 
     public Map<String, Object> authenticateAndGenerateToken(AuthDTO authDTO){
         try{

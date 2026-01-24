@@ -2,6 +2,7 @@ package in.anouer.moneymanager.controller;
 
 import in.anouer.moneymanager.dto.AuthDTO;
 import in.anouer.moneymanager.dto.ProfileDTO;
+import in.anouer.moneymanager.dto.UpdateProfileDTO;
 import in.anouer.moneymanager.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
@@ -51,6 +52,12 @@ public class ProfileController {
     @GetMapping("/profile")
     public ResponseEntity<ProfileDTO> getPublicProfile(){
         ProfileDTO profileDTO=profileService.getPublicProfile(null);
+        return ResponseEntity.ok(profileDTO);
+    }
+
+    @PatchMapping("/updateProfile")
+    public ResponseEntity<ProfileDTO> updateProfile(@RequestBody UpdateProfileDTO updateProfileDTO){
+       ProfileDTO profileDTO = profileService.updateProfile(updateProfileDTO);
         return ResponseEntity.ok(profileDTO);
     }
 

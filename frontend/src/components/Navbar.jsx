@@ -50,12 +50,15 @@ const Navbar = ({ activeMenu }) => {
           )}
         </button>
 
-        <div className="flex items-center gap-2">
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="flex items-center gap-2 cursor-pointer"
+        >
           <img src={assets.logo} alt="logo" className="h-10 w-10" />
           <span className="text-lg font-medium text-black truncate">
             Money Manager
           </span>
-        </div>
+        </button>
       </div>
 
       {/*right side - profile picture */}
