@@ -1,0 +1,16 @@
+# Exported from Render on 2026-01-25T07:49:52Z
+version: "1"
+projects:
+- name: My project
+  environments:
+  - name: Production
+    databases:
+    - name: moneymanager.raissianouer
+      databaseName: moneymanager_9uum
+      user: moneymanager_9uum_user
+      plan: free
+      region: frankfurt
+      ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere
+      postgresMajorVersion: "18"
